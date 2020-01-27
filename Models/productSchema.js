@@ -4,9 +4,10 @@ const Schema = mongoose.Schema;
 // Schemas
 // =======
 const productSchema = new Schema({
-    content: String,
-    created: { type: Date, default: Date.now() }
-  }
+  name: String,
+  price: Number,
+  created: { type: Date, default: Date.now() }
+}
 );
 
-module.exports = mongoose.model('products', productSchema);
+module.exports = { ProductModel: mongoose.model('products', productSchema), productSchema: productSchema };
