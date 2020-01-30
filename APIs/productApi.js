@@ -2,6 +2,7 @@ const express = require('express');
 const router = express.Router();
 const ProductModel = require('../Models/productSchema').ProductModel;
 const multer = require('multer');
+const path = require('path');
 // const upload = multer({ dest: 'uploads/' });
 // ======
 // Create
@@ -78,7 +79,7 @@ router.post('/deleteProduct/:id', (req, res) => {
   // define multer storage configuration     
   const storage = multer.diskStorage({
   destination : function(req,file,callback){
-    callback(null, '../images');
+    callback(null, './images');
   },
   filename: function(req,file,callback){
       callback(null, file.fieldname + '-' + Date.now());
@@ -95,9 +96,12 @@ const upload = multer({ storage : storage});
     try {
       await res.send(req.file);
     } catch (err) {
-      await res.send(400);
+       res.send(400);
     }
   });
-  
+
+  router.post('/getImage/:nameImage', upload.single('image'), async (req, res) => {
+   await res.sendFile(path.join(__dirname, '../images/' + req.params.nameImage));
+  });
 
 module.exports = router;
