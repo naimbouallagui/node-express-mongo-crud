@@ -5,6 +5,7 @@ const bearer = require('passport-http-bearer');
 const passport = require('passport');
 const jwt = require('jsonwebtoken');
 const nodemailer = require('nodemailer');
+var schedule = require('node-schedule');
 
 require('../config/passport');
 
@@ -122,5 +123,32 @@ router.post('/send-mail', (req, res) => {
       console.log('Email sent: ' + info.response);
     }
   });
+});
+// ======
+// Send mail every 1 hour
+// ======
+ schedule.scheduleJob({minute : 00}, function(){
+  let transporter = nodemailer.createTransport({
+      service: 'outlook',
+      auth: {
+        user: 'xxxx@outlook.com',
+        pass: 'xxxx'
+      }
+    });
+  
+    let mailOptions = {
+      from: 'xxxx@outlook.com',
+      to: 'yyyy@gmail.com',
+      subject: 'Sending Email using Node.js package nodemailer',
+      html: '<a href="aaaaa" alt="just an example">This is Your Link :)</a>'
+    };
+  
+    transporter.sendMail(mailOptions, function (error, info) {
+      if (error) {
+        console.log(error);
+      } else {
+        console.log('Email sent: ' + info.response);
+      }
+    });
 });
 module.exports = router;
