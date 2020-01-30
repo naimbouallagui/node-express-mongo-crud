@@ -2,7 +2,7 @@ const express = require('express');
 const bodyParser = require('body-parser');
 require('./Database/db');
 require('./config/passport');
-const nodemailer = require('nodemailer');
+require('nodemailer');
 const app = express();// execute the package express
 const productApi = require('./APIs/productApi');
 const userApi = require('./APIs/userApi');
